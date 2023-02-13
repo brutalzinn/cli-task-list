@@ -1,7 +1,7 @@
 import 'package:args/command_runner.dart';
-import 'package:auto_assistant_cli/commands/AuthCommand.dart';
-import 'package:auto_assistant_cli/commands/RepoCommand.dart';
-import 'package:auto_assistant_cli/commands/TaskCommand.dart';
+import 'package:auto_assistant_cli/commands/repo.dart';
+import 'package:auto_assistant_cli/commands/task.dart';
+import 'package:auto_assistant_cli/commands/auth.dart';
 
 void main(List<String> args) {
   var runner = CommandRunner(
