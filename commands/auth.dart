@@ -10,7 +10,7 @@ class AuthCommand extends Command {
     // we can add command specific arguments here.
     // [argParser] is automatically created by the parent class.
     argParser.addOption('add', abbr: 'a');
-    argParser.addOption('rm', abbr: 'r');
+    argParser.addOption('clear', abbr: 'c');
   }
 
   // [run] may also return a Future.

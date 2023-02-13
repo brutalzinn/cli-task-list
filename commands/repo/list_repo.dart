@@ -1,20 +1,10 @@
 import 'package:args/command_runner.dart';
 
 class ListRepoCommand extends Command {
-  // The [name] and [description] properties must be defined by every
-  // subclass.
-  final name = "del";
-  final description = "del a repo";
+  final name = "list";
+  final description = "list repos";
 
-  ListRepoCommand() {
-    // we can add command specific arguments here.
-    // [argParser] is automatically created by the parent class.
-  }
+  ListRepoCommand() {}
 
-  // [run] may also return a Future.
-  void run() {
-    // [argResults] is set before [run()] is called and contains the flags/options
-    // passed to this command.
-    print(argResults!['del']);
-  }
+  void run() {}
 }
