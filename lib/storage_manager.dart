@@ -52,7 +52,7 @@ class StorageManager {
     final repoExists = repoDirectory.existsSync();
     if (repoExists == false) {
       repoDirectory.create();
-      final repo = Repo("default", "", DateTime.now(), DateTime.now());
+      final repo = Repo("default", "", createAt: DateTime.now());
       StorageManager(repo: repo, tasks: []).save();
     }
   }

@@ -18,7 +18,7 @@ class AddRepoCommand extends Command {
       repoDescription = argResults?.arguments[1] ?? "";
     }
     final currentDate = DateTime.now();
-    final repo = Repo(repoName, repoDescription, createAt: currentDate);
+    final repo = Repo(repoName, repoDescription, currentDate, currentDate);
     final storageManager = StorageManager(repo: repo, tasks: []);
     storageManager.save();
     print(repoName);

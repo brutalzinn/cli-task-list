@@ -2,9 +2,10 @@
 import 'dart:convert';
 
 import 'package:auto_assistant_cli/config.dart';
+import 'package:auto_assistant_cli/models/repo.dart';
 
 class Cache {
-  String currentRepo;
+  Repo currentRepo;
   String? apiKey;
   DateTime? lastPush;
   DateTime? lastPull;
@@ -16,7 +17,7 @@ class Cache {
   });
 
   Cache copyWith({
-    String? currentRepo,
+    Repo? currentRepo,
     String? apiKey,
     DateTime? lastPush,
     DateTime? lastPull,
@@ -31,7 +32,7 @@ class Cache {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'currentRepo': currentRepo,
+      'currentRepo': currentRepo.toMap(),
       'apiKey': apiKey,
       'lastPush': lastPush != null ? Config.dateFormat.format(lastPush!) : null,
       'lastPull': lastPull != null ? Config.dateFormat.format(lastPull!) : null,
@@ -40,11 +41,14 @@ class Cache {
 
   factory Cache.fromMap(Map<String, dynamic> map) {
     return Cache(
-      currentRepo: map['currentRepo'] as String,
-      apiKey: map['apiKey'] as String,
-      lastPush: Config.dateFormat.parse(map['lastPush'] as String),
-      lastPull: Config.dateFormat.parse(map['lastPull'] as String),
-    );
+        currentRepo: Repo.fromMap(map['currentRepo'] as Map<String, dynamic>),
+        apiKey: map['apiKey'] != null ? map['apiKey'] as String : null,
+        lastPush: map['lastPush'] != null
+            ? Config.dateFormat.parse(map['lastPush'] as String)
+            : null,
+        lastPull: map['lastPull'] != null
+            ? Config.dateFormat.parse(map['lastPull'] as String)
+            : null);
   }
 
   String toJson() => json.encode(toMap());
@@ -55,5 +59,23 @@ class Cache {
   @override
   String toString() {
     return 'Cache(currentRepo: $currentRepo, apiKey: $apiKey, lastPush: $lastPush, lastPull: $lastPull)';
+  }
+
+  @override
+  bool operator ==(covariant Cache other) {
+    if (identical(this, other)) return true;
+
+    return other.currentRepo == currentRepo &&
+        other.apiKey == apiKey &&
+        other.lastPush == lastPush &&
+        other.lastPull == lastPull;
+  }
+
+  @override
+  int get hashCode {
+    return currentRepo.hashCode ^
+        apiKey.hashCode ^
+        lastPush.hashCode ^
+        lastPull.hashCode;
   }
 }

@@ -22,7 +22,7 @@ class SelectRepoCommand extends Command {
       print("repo not found");
       return;
     }
-    Config.cacheManager.cache.currentRepo = repoName;
+    Config.cacheManager.cache.currentRepo.name = repoName;
     Config.cacheManager.save();
     print("Current repo changed to $repoName");
   }

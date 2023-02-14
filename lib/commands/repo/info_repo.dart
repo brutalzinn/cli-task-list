@@ -16,7 +16,7 @@ class InfoRepoCommand extends Command {
   @override
   void run() {
     final currentRepo = Config.cacheManager.cache.currentRepo;
-    final info = StorageManager.load(currentRepo);
+    final info = StorageManager.load(currentRepo.name);
     print(
         "Name ${info.repo} ${info.repo.createAt} ${info.repo.updateAt} tasks: ${info.tasks.length}");
   }

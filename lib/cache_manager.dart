@@ -2,6 +2,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:auto_assistant_cli/models/cache.dart';
+import 'package:auto_assistant_cli/models/repo.dart';
 import 'package:path/path.dart' as Path;
 import 'package:auto_assistant_cli/config.dart';
 
@@ -31,7 +32,7 @@ class CacheManager {
     final repoExists = cacheDirectory.existsSync();
     if (repoExists == false) {
       cacheDirectory.create();
-      CacheManager(cache: Cache(currentRepo: "default")).save();
+      CacheManager(cache: Cache(currentRepo: Repo("default", ""))).save();
     }
   }
 
