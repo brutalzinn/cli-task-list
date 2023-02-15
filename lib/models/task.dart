@@ -4,31 +4,34 @@ import 'dart:convert';
 import 'package:auto_assistant_cli/config.dart';
 
 class Task {
-  final String name;
-  final String description;
-  final DateTime createAt;
-  final DateTime updateAt;
+  String name;
+  String description;
+  DateTime? createAt;
+  DateTime? updateAt;
   Task(
     this.name,
-    this.description,
+    this.description, {
     this.createAt,
     this.updateAt,
-  );
+  }) {
+    createAt ??= DateTime.now();
+  }
 
   factory Task.fromMap(Map<String, dynamic> map) {
-    return Task(
-      map['name'] as String,
-      map['description'] as String,
-     Config.dateFormat.parse(map['createAt'] as String),
-      Config.dateFormat.parse(map['updateAt'] as String),
-    );
+    return Task(map['name'] as String, map['description'] as String,
+        createAt: map['createAt'] != null
+            ? Config.dateFormat.parse(map['createAt'] as String)
+            : null,
+        updateAt: map['updateAt'] != null
+            ? Config.dateFormat.parse(map['updateAt'] as String)
+            : null);
   }
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'name': name,
       'description': description,
-      'createAt': Config.dateFormat.format(createAt),
-      'updateAt': Config.dateFormat.format(updateAt),
+      'createAt': createAt != null ? Config.dateFormat.format(createAt!) : null,
+      'updateAt': updateAt != null ? Config.dateFormat.format(updateAt!) : null,
     };
   }
 

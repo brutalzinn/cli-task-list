@@ -1,4 +1,5 @@
 import 'package:args/command_runner.dart';
+import 'package:auto_assistant_cli/commands/task/add_task.dart';
 
 class TaskCommand extends Command {
   @override
@@ -6,8 +7,7 @@ class TaskCommand extends Command {
   @override
   final description = "Task manager";
 
-  TaskCommand();
-
-  @override
-  void run() {}
+  TaskCommand() {
+    addSubcommand(AddTaskCommand());
+  }
 }

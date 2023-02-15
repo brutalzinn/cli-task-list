@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:args/command_runner.dart';
 import 'package:auto_assistant_cli/cache_manager.dart';
 import 'package:auto_assistant_cli/config.dart';
-import 'package:auto_assistant_cli/storage_manager.dart';
+import 'package:auto_assistant_cli/repo_manager.dart';
 
 class InfoRepoCommand extends Command {
   @override
@@ -15,8 +15,8 @@ class InfoRepoCommand extends Command {
 
   @override
   void run() {
-    final currentRepo = Config.cacheManager.cache.currentRepo;
-    final info = StorageManager.load(currentRepo.name);
+    final currentRepo = Config.cacheManager.cache!.currentRepo;
+    final info = RepoManager.load(currentRepo.name);
     print(
         "Name ${info.repo} ${info.repo.createAt} ${info.repo.updateAt} tasks: ${info.tasks.length}");
   }

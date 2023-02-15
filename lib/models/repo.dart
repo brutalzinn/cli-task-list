@@ -23,8 +23,12 @@ class Repo {
     return Repo(
       map['name'] as String,
       map['description'] as String,
-      createAt: Config.dateFormat.parse(map['createAt'] as String),
-      updateAt: Config.dateFormat.parse(map['updateAt'] as String),
+      createAt: map['createAt'] != null
+          ? Config.dateFormat.parse(map['createAt'] as String)
+          : null,
+      updateAt: map['updateAt'] != null
+          ? Config.dateFormat.parse(map['updateAt'] as String)
+          : null,
     );
   }
 

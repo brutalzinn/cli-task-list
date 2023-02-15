@@ -8,5 +8,5 @@ class Config {
   static const String cacheDirectory = "cache";
   static DateFormat dateFormat = DateFormat("yyyy-MM-dd HH:mm:ss");
   static CacheManager cacheManager =
-      CacheManager(cache: Cache(currentRepo: Repo("default", "")));
+      CacheManager(cache: Cache(currentRepo: Repo("default", ""), tasks: []));
 }

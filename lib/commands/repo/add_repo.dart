@@ -1,6 +1,6 @@
 import 'package:args/command_runner.dart';
 import 'package:auto_assistant_cli/models/repo.dart';
-import 'package:auto_assistant_cli/storage_manager.dart';
+import 'package:auto_assistant_cli/repo_manager.dart';
 
 class AddRepoCommand extends Command {
   @override
@@ -19,7 +19,7 @@ class AddRepoCommand extends Command {
     }
     final currentDate = DateTime.now();
     final repo = Repo(repoName, repoDescription, createAt: currentDate);
-    final storageManager = StorageManager(repo: repo, tasks: []);
+    final storageManager = RepoManager(repo: repo, tasks: []);
     storageManager.save();
     print(repoName);
   }

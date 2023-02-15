@@ -1,26 +1,30 @@
 import 'package:args/command_runner.dart';
+import 'package:auto_assistant_cli/cache_manager.dart';
+import 'package:auto_assistant_cli/config.dart';
 import 'package:auto_assistant_cli/models/repo.dart';
-import 'package:auto_assistant_cli/storage_manager.dart';
+import 'package:auto_assistant_cli/models/task.dart';
+import 'package:auto_assistant_cli/repo_manager.dart';
 
-class AddRepoCommand extends Command {
+class AddTaskCommand extends Command {
   @override
   final name = "add";
   @override
-  final description = "add a repo";
+  final description = "add a task";
 
-  AddRepoCommand();
+  AddTaskCommand();
 
   @override
   void run() {
-    var repoName = argResults?.arguments[0] ?? "";
-    var repoDescription = "";
+    var taskName = argResults?.arguments[0] ?? "";
+    var taskDescription = "";
     if (argResults?.arguments.length == 2) {
-      repoDescription = argResults?.arguments[1] ?? "";
+      taskDescription = argResults?.arguments[1] ?? "";
     }
-    final currentDate = DateTime.now();
-    final repo = Repo(repoName, repoDescription, currentDate, currentDate);
-    final storageManager = StorageManager(repo: repo, tasks: []);
-    storageManager.save();
-    print(repoName);
+    final task = Task(taskName, taskDescription);
+    Config.cacheManager.refresh();
+    Config.cacheManager.cache!.tasks.add(task);
+    // print(Config.cacheManager.toJson());
+    Config.cacheManager.save();
+    print("Task $taskName created");
   }
 }
