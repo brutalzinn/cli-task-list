@@ -18,6 +18,6 @@ class InfoRepoCommand extends Command {
     final currentRepo = Config.cacheManager.cache!.currentRepo;
     final info = RepoManager.load(currentRepo.name);
     print(
-        "Name ${info.repo} ${info.repo.createAt} ${info.repo.updateAt} tasks: ${info.tasks.length}");
+        "Name: ${info.repo.name} create At ${info.repo.createAt} Last Update: ${info.repo.updateAt} tasks: ${info.tasks.length}");
   }
 }

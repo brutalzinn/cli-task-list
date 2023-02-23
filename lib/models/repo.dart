@@ -5,15 +5,18 @@ import 'package:auto_assistant_cli/config.dart';
 class Repo {
   String name;
   String description;
+  String? fileName;
   DateTime? createAt;
   DateTime? updateAt;
 
-  Repo(this.name, this.description, {this.createAt, this.updateAt});
+  Repo(this.name, this.description,
+      {this.fileName, this.createAt, this.updateAt});
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'name': name,
       'description': description,
+      'filename': fileName,
       'createAt': createAt != null ? Config.dateFormat.format(createAt!) : null,
       'updateAt': updateAt != null ? Config.dateFormat.format(updateAt!) : null,
     };
@@ -23,6 +26,7 @@ class Repo {
     return Repo(
       map['name'] as String,
       map['description'] as String,
+      fileName: map['filename'],
       createAt: map['createAt'] != null
           ? Config.dateFormat.parse(map['createAt'] as String)
           : null,

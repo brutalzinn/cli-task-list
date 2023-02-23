@@ -6,6 +6,7 @@ import 'package:auto_assistant_cli/commands/repo/list_repo.dart';
 import 'package:auto_assistant_cli/commands/repo/save_repo.dart';
 import 'package:auto_assistant_cli/commands/repo/select_repo.dart';
 import 'package:auto_assistant_cli/config.dart';
+import 'package:auto_assistant_cli/repo_manager.dart';
 
 class RepoCommand extends Command {
   // The [name] and [description] properties must be defined by every

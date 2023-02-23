@@ -23,7 +23,6 @@ class AddTaskCommand extends Command {
     final task = Task(taskName, taskDescription);
     Config.cacheManager.refresh();
     Config.cacheManager.cache!.tasks.add(task);
-    // print(Config.cacheManager.toJson());
     Config.cacheManager.save();
     print("Task $taskName created");
   }
