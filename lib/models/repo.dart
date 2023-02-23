@@ -5,12 +5,12 @@ import 'package:auto_assistant_cli/config.dart';
 class Repo {
   String name;
   String description;
-  String? fileName;
+  String fileName;
   DateTime? createAt;
   DateTime? updateAt;
 
   Repo(this.name, this.description,
-      {this.fileName, this.createAt, this.updateAt});
+      {this.fileName = "default", this.createAt, this.updateAt});
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{

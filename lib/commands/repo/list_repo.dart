@@ -17,9 +17,11 @@ class ListRepoCommand extends Command {
     final repoDirectory = Directory(Config.repoDirectory);
     final files =
         await repoDirectory.list(recursive: false, followLinks: false).toList();
-    for (var entity in files) {
-      final filename = basename(entity.path).replaceAll(".json", "");
-      print(filename);
+
+    for (int i = 0; i < files.length; i++) {
+      final item = files[i];
+      final filename = basename(item.path).replaceAll(".json", "");
+      print("[${i}] ${filename}");
     }
   }
 }

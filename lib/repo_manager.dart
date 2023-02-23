@@ -38,7 +38,7 @@ class RepoManager {
 
   void save() {
     final repoDirectory = Directory(Config.repoDirectory);
-    final filePath = Path.join(repoDirectory.path, "${repo.name}.json");
+    final filePath = Path.join(repoDirectory.path, "${repo.fileName}.json");
     String json = toJson();
     File(filePath).writeAsString(json);
   }
@@ -53,9 +53,9 @@ class RepoManager {
     }
   }
 
-  static RepoManager load(String repoName) {
+  static RepoManager load(String fileName) {
     final repoDirectory = Directory(Config.repoDirectory);
-    final filePath = Path.join(repoDirectory.path, "$repoName.json");
+    final filePath = Path.join(repoDirectory.path, "$fileName.json");
     final jsonString = File(filePath).readAsStringSync();
     return RepoManager.fromJson(jsonString);
   }
