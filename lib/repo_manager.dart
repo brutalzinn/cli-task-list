@@ -43,7 +43,7 @@ class RepoManager {
     File(filePath).writeAsString(json);
   }
 
-  static void createIfNotExists() {
+  static void initialize() {
     final repoDirectory = Directory(Config.repoDirectory);
     final repoExists = repoDirectory.existsSync();
     if (repoExists == false) {

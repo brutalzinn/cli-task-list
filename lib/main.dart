@@ -10,11 +10,10 @@ import 'package:auto_assistant_cli/repo_manager.dart';
 
 void main(List<String> args) {
   CacheManager.initialize();
-  RepoManager.createIfNotExists();
-  var runner =
-      CommandRunner("note", "A task implementation to uses with api-task-list")
-        ..addCommand(TaskCommand())
-        ..addCommand(RepoCommand())
-        ..addCommand(AuthCommand())
-        ..run(args);
+  RepoManager.initialize();
+  CommandRunner("note", "A task implementation to uses with api-task-list")
+    ..addCommand(TaskCommand())
+    ..addCommand(RepoCommand())
+    ..addCommand(AuthCommand())
+    ..run(args);
 }

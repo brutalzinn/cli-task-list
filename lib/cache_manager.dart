@@ -19,6 +19,7 @@ class CacheManager {
     final filePath = Path.join(repoDirectory.path, "default.json");
     String json = cache!.toJson();
     File(filePath).writeAsString(json);
+    print("Cache saved");
   }
 
   static CacheManager? load() {
