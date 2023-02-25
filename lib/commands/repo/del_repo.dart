@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:auto_assistant_cli/console/colors.dart';
+import 'package:auto_assistant_cli/console/console_writter.dart';
 import 'package:path/path.dart';
 
 import 'package:args/command_runner.dart';
@@ -24,7 +26,7 @@ class DelRepoCommand extends Command {
       final filename = basename(item.path).replaceAll(".json", "");
       if (i == index) {
         File(item.path).delete();
-        print("DELETED $filename");
+        ConsoleWritter.writeWithColor("DELETED $filename", Colors.green);
         break;
       }
     }

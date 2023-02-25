@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:args/command_runner.dart';
 import 'package:auto_assistant_cli/config.dart';
+import 'package:auto_assistant_cli/console/colors.dart';
+import 'package:auto_assistant_cli/console/console_writter.dart';
 import 'package:path/path.dart' as Path;
 
 class SelectRepoCommand extends Command {
@@ -19,11 +21,11 @@ class SelectRepoCommand extends Command {
         File(Path.join(Config.repoDirectory, "$repoName.json"));
     final repoExists = repoDirectory.existsSync();
     if (repoExists == false) {
-      print("repo not found");
+      ConsoleWritter.writeWithColor("repo not found", Colors.red);
       return;
     }
     Config.cacheManager.cache!.currentRepo.name = repoName;
     Config.cacheManager.save();
-    print("Current repo changed to $repoName");
+    ConsoleWritter.write("Current repo changed to $repoName");
   }
 }

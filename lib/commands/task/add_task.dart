@@ -1,6 +1,8 @@
 import 'package:args/command_runner.dart';
 import 'package:auto_assistant_cli/cache_manager.dart';
 import 'package:auto_assistant_cli/config.dart';
+import 'package:auto_assistant_cli/console/colors.dart';
+import 'package:auto_assistant_cli/console/console_writter.dart';
 import 'package:auto_assistant_cli/models/repo.dart';
 import 'package:auto_assistant_cli/models/task.dart';
 import 'package:auto_assistant_cli/repo_manager.dart';
@@ -24,6 +26,6 @@ class AddTaskCommand extends Command {
     Config.cacheManager.refresh();
     Config.cacheManager.cache!.tasks.add(task);
     Config.cacheManager.save();
-    print("Task $taskName created");
+    ConsoleWritter.writeWithColor("Task $taskName created", Colors.green);
   }
 }

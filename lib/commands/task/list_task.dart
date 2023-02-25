@@ -1,6 +1,9 @@
+// ignore_for_file: unnecessary_brace_in_string_interps
+
 import 'dart:io';
 import 'package:args/command_runner.dart';
 import 'package:auto_assistant_cli/config.dart';
+import 'package:auto_assistant_cli/console/console_writter.dart';
 import 'package:auto_assistant_cli/repo_manager.dart';
 
 class ListTaskCommand extends Command {
@@ -21,7 +24,7 @@ class ListTaskCommand extends Command {
     tasks.addAll(currentRepo.tasks);
     for (int i = 0; i < tasks.length; i++) {
       final item = tasks[i];
-      print(
+      ConsoleWritter.write(
           "[${i}] ${item.name} Create at ${item.createAt} Last Update: ${item.updateAt}");
     }
   }

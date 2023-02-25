@@ -1,4 +1,6 @@
 import 'package:args/command_runner.dart';
+import 'package:auto_assistant_cli/console/colors.dart';
+import 'package:auto_assistant_cli/console/console_writter.dart';
 import 'package:auto_assistant_cli/models/repo.dart';
 import 'package:auto_assistant_cli/repo_manager.dart';
 
@@ -23,6 +25,7 @@ class AddRepoCommand extends Command {
         fileName: fileName, createAt: currentDate);
     final storageManager = RepoManager(repo: repo, tasks: []);
     storageManager.save();
-    print(repoName);
+    ConsoleWritter.writeWithColor(
+        "$repoName added with success.", Colors.green);
   }
 }

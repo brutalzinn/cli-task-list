@@ -1,5 +1,7 @@
 import 'package:args/command_runner.dart';
 import 'package:auto_assistant_cli/config.dart';
+import 'package:auto_assistant_cli/console/colors.dart';
+import 'package:auto_assistant_cli/console/console_writter.dart';
 import 'package:auto_assistant_cli/repo_manager.dart';
 
 class SaveRepoCommand extends Command {
@@ -22,7 +24,7 @@ class SaveRepoCommand extends Command {
     Config.cacheManager.cache!.tasks.clear();
     info.save();
     Config.cacheManager.save();
-    print("Saved");
-    print("Local cache cleaned");
+    ConsoleWritter.writeWithColor("Saved", Colors.green);
+    ConsoleWritter.writeWithColor("Local cache cleaned", Colors.yellow);
   }
 }

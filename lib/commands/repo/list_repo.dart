@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:args/command_runner.dart';
 import 'package:auto_assistant_cli/config.dart';
+import 'package:auto_assistant_cli/console/console_writter.dart';
 import 'package:path/path.dart';
 
 class ListRepoCommand extends Command {
@@ -21,7 +22,7 @@ class ListRepoCommand extends Command {
     for (int i = 0; i < files.length; i++) {
       final item = files[i];
       final filename = basename(item.path).replaceAll(".json", "");
-      print("[${i}] ${filename}");
+      ConsoleWritter.write("[${i}] ${filename}");
     }
   }
 }
