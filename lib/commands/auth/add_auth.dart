@@ -13,7 +13,7 @@ class AddAuthCommand extends Command {
 
   @override
   void run() {
-    var apiKey = argResults?.arguments[0] ?? "";
+    final apiKey = argResults?.arguments[0] ?? "";
     Config.cacheManager.refresh();
     final currentCache = Config.cacheManager.cache;
     currentCache!.apiKey = apiKey;

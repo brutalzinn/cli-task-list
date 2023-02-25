@@ -24,7 +24,7 @@ class SelectRepoCommand extends Command {
       ConsoleWritter.writeWithColor("repo not found", Colors.red);
       return;
     }
-    Config.cacheManager.cache!.currentRepo.name = repoName;
+    Config.cacheManager.cache!.currentRepo.title = repoName;
     Config.cacheManager.save();
     ConsoleWritter.write("Current repo changed to $repoName");
   }

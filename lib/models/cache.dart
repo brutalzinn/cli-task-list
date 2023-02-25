@@ -11,12 +11,14 @@ class Cache {
   Repo currentRepo;
   List<Task> tasks;
   String? apiKey;
+  String? apiUrl;
   DateTime? lastPush;
   DateTime? lastPull;
   Cache({
     required this.currentRepo,
     required this.tasks,
     this.apiKey,
+    this.apiUrl,
     this.lastPush,
     this.lastPull,
   });
@@ -26,6 +28,7 @@ class Cache {
       'currentRepo': currentRepo.toMap(),
       'tasks': tasks.map((x) => x.toMap()).toList(),
       'apiKey': apiKey,
+      'apiUrl': apiUrl,
       'lastPush': lastPush != null ? Config.dateFormat.format(lastPush!) : null,
       'lastPull': lastPull != null ? Config.dateFormat.format(lastPull!) : null
     };
@@ -36,6 +39,7 @@ class Cache {
       currentRepo: Repo.fromMap(map['currentRepo'] as Map<String, dynamic>),
       tasks: (map['tasks'] as List).map((task) => Task.fromMap(task)).toList(),
       apiKey: map['apiKey'] != null ? map['apiKey'] as String : "",
+      apiUrl: map['apiUrl'] != null ? map['apiUrl'] as String : "",
       lastPush: map['lastPush'] != null
           ? Config.dateFormat.parse(map['lastPush'] as String)
           : null,
@@ -53,21 +57,5 @@ class Cache {
   @override
   String toString() {
     return 'Cache(currentRepo: $currentRepo, tasks: $tasks, apiKey: $apiKey, lastPush: $lastPush, lastPull: $lastPull)';
-  }
-
-  Cache copyWith({
-    Repo? currentRepo,
-    List<Task>? tasks,
-    String? apiKey,
-    DateTime? lastPush,
-    DateTime? lastPull,
-  }) {
-    return Cache(
-      currentRepo: currentRepo ?? this.currentRepo,
-      tasks: tasks ?? this.tasks,
-      apiKey: apiKey ?? this.apiKey,
-      lastPush: lastPush ?? this.lastPush,
-      lastPull: lastPull ?? this.lastPull,
-    );
   }
 }

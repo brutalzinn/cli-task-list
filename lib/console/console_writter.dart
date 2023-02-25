@@ -5,6 +5,11 @@ class ConsoleWritter {
     writeWithColor(text, Colors.white);
   }
 
+  static void writeImportant(String text) {
+    writeWithColor("WARNING!", Colors.yellow);
+    writeWithColor(text, Colors.red);
+  }
+
   static void writeWithColor(String text, String color) {
     print('$color$text${Colors.noColor}');
   }

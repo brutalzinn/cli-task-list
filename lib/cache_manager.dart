@@ -2,6 +2,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:auto_assistant_cli/console/colors.dart';
+import 'package:auto_assistant_cli/console/console_writter.dart';
 import 'package:path/path.dart' as Path;
 
 import 'package:auto_assistant_cli/config.dart';
@@ -19,7 +21,7 @@ class CacheManager {
     final filePath = Path.join(repoDirectory.path, "default.json");
     String json = cache!.toJson();
     File(filePath).writeAsString(json);
-    print("Cache saved");
+    ConsoleWritter.write("Cache saved");
   }
 
   static CacheManager? load() {
@@ -34,9 +36,15 @@ class CacheManager {
 
   void refresh() {
     final cacheManager = CacheManager.load();
-    final oldTasks = cacheManager?.cache?.tasks ?? [];
+    if (cacheManager == null) {
+      ConsoleWritter.writeImportant("Caution. You cache cant be loaded.");
+      return;
+    }
+    final oldTasks = cacheManager.cache?.tasks ?? [];
     cache!.tasks.clear();
     cache!.tasks.addAll(oldTasks);
+    cache!.apiUrl = cacheManager.cache!.apiUrl;
+    cache!.apiKey = cacheManager.cache!.apiKey;
   }
 
   static void initialize() {

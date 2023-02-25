@@ -3,20 +3,20 @@ import 'dart:convert';
 import 'package:auto_assistant_cli/config.dart';
 
 class Repo {
-  String name;
+  String title;
   String description;
   String fileName;
   DateTime? createAt;
   DateTime? updateAt;
 
-  Repo(this.name, this.description,
+  Repo(this.title, this.description,
       {this.fileName = "default", this.createAt, this.updateAt});
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'name': name,
+      'title': title,
       'description': description,
-      'filename': fileName,
+      'fileName': fileName,
       'createAt': createAt != null ? Config.dateFormat.format(createAt!) : null,
       'updateAt': updateAt != null ? Config.dateFormat.format(updateAt!) : null,
     };
@@ -24,9 +24,8 @@ class Repo {
 
   factory Repo.fromMap(Map<String, dynamic> map) {
     return Repo(
-      map['name'] as String,
+      map['title'] as String,
       map['description'] as String,
-      fileName: map['filename'],
       createAt: map['createAt'] != null
           ? Config.dateFormat.parse(map['createAt'] as String)
           : null,
@@ -43,6 +42,6 @@ class Repo {
 
   @override
   String toString() {
-    return 'Repo(name: $name, description: $description, createAt: $createAt, updateAt: $updateAt)';
+    return 'Repo(title: $title, description: $description, createAt: $createAt, updateAt: $updateAt)';
   }
 }

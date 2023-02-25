@@ -7,5 +7,6 @@ class Colors {
   static const String yellow = "\x1B[33m";
   static const String blue = "\x1B[34m";
   static const String white = "\x1B[37m";
+  static const String cyan = "\u001b[36m";
   static const String noColor = "\x1B[0m";
 }

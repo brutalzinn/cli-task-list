@@ -1,5 +1,3 @@
-// ignore_for_file: unnecessary_brace_in_string_interps
-
 import 'dart:io';
 
 import 'package:args/command_runner.dart';
@@ -10,14 +8,21 @@ import 'package:auto_assistant_cli/console/console_writter.dart';
 import 'package:auto_assistant_cli/provider/http_connector.dart';
 import 'package:auto_assistant_cli/repo_manager.dart';
 
-class PushRemoteCommand extends Command {
+class AddRemoteUrl extends Command {
   @override
-  final name = "push";
+  final name = "url";
   @override
-  final description = "push repo";
+  final description = "change remote url";
 
-  PushRemoteCommand();
+  AddRemoteUrl();
 
   @override
-  void run() async {}
+  void run() {
+    final apiUrl = argResults?.arguments[0] ?? "";
+    Config.cacheManager.refresh();
+    final currentCache = Config.cacheManager.cache;
+    currentCache!.apiUrl = apiUrl;
+    Config.cacheManager.save();
+    ConsoleWritter.writeWithColor("Api url is $apiUrl", Colors.green);
+  }
 }
