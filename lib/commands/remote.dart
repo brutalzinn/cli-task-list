@@ -1,5 +1,5 @@
 import 'package:args/command_runner.dart';
-import 'package:auto_assistant_cli/commands/remote/add_remote_url.dart';
+import 'package:auto_assistant_cli/commands/remote/add_remote.dart';
 import 'package:auto_assistant_cli/commands/remote/list_remote.dart';
 import 'remote/push_remote.dart';
 
@@ -11,7 +11,7 @@ class RemoteCommand extends Command {
 
   RemoteCommand() {
     // addSubcommand(PushRemoteCommand());
-    addSubcommand(AddRemoteUrl());
+    addSubcommand(AddRemote());
     addSubcommand(ListRemoteCommand());
   }
 }

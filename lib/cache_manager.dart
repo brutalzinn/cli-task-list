@@ -45,6 +45,7 @@ class CacheManager {
     cache!.tasks.addAll(oldTasks);
     cache!.apiUrl = cacheManager.cache!.apiUrl;
     cache!.apiKey = cacheManager.cache!.apiKey;
+    cache!.remotes = cacheManager.cache!.remotes;
   }
 
   static void initialize() {
@@ -53,8 +54,8 @@ class CacheManager {
     if (repoExists == false) {
       cacheDirectory.create();
       final defaultRepo = Repo("default", "Default repo");
-      Config.cacheManager =
-          CacheManager(cache: Cache(currentRepo: defaultRepo, tasks: []));
+      Config.cacheManager = CacheManager(
+          cache: Cache(currentRepo: defaultRepo, remotes: [], tasks: []));
       Config.cacheManager.save();
     }
   }

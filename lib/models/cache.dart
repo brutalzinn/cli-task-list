@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:auto_assistant_cli/models/remote.dart';
 import 'package:collection/collection.dart';
 
 import 'package:auto_assistant_cli/config.dart';
@@ -9,6 +10,7 @@ import 'package:auto_assistant_cli/models/task.dart';
 
 class Cache {
   Repo currentRepo;
+  List<Remote> remotes;
   List<Task> tasks;
   String? apiKey;
   String? apiUrl;
@@ -16,6 +18,7 @@ class Cache {
   DateTime? lastPull;
   Cache({
     required this.currentRepo,
+    required this.remotes,
     required this.tasks,
     this.apiKey,
     this.apiUrl,
@@ -26,6 +29,7 @@ class Cache {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'currentRepo': currentRepo.toMap(),
+      'remotes': remotes.map((x) => x.toMap()).toList(),
       'tasks': tasks.map((x) => x.toMap()).toList(),
       'apiKey': apiKey,
       'apiUrl': apiUrl,
@@ -37,6 +41,8 @@ class Cache {
   factory Cache.fromMap(Map<String, dynamic> map) {
     return Cache(
       currentRepo: Repo.fromMap(map['currentRepo'] as Map<String, dynamic>),
+      remotes:
+          (map['remotes'] as List).map((task) => Remote.fromMap(task)).toList(),
       tasks: (map['tasks'] as List).map((task) => Task.fromMap(task)).toList(),
       apiKey: map['apiKey'] != null ? map['apiKey'] as String : "",
       apiUrl: map['apiUrl'] != null ? map['apiUrl'] as String : "",

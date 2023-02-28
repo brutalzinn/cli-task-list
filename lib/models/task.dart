@@ -6,11 +6,13 @@ import 'package:auto_assistant_cli/config.dart';
 class Task {
   String name;
   String description;
+  String text;
   DateTime? createAt;
   DateTime? updateAt;
   Task(
     this.name,
-    this.description, {
+    this.description,
+    this.text, {
     this.createAt,
     this.updateAt,
   }) {
@@ -19,6 +21,7 @@ class Task {
 
   factory Task.fromMap(Map<String, dynamic> map) {
     return Task(map['name'] as String, map['description'] as String,
+        map['text'] as String,
         createAt: map['createAt'] != null
             ? Config.dateFormat.parse(map['createAt'] as String)
             : null,
@@ -30,6 +33,7 @@ class Task {
     return <String, dynamic>{
       'name': name,
       'description': description,
+      'text': text,
       'createAt': createAt != null ? Config.dateFormat.format(createAt!) : null,
       'updateAt': updateAt != null ? Config.dateFormat.format(updateAt!) : null,
     };

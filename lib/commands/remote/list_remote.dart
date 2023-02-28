@@ -21,23 +21,37 @@ class ListRemoteCommand extends Command {
   }
 
   @override
-  void run() async {
-    final page = int.parse(argResults!['page']);
-    ConsoleWritter.writeWithColor("Show repos of page $page", Colors.yellow);
+  void run() {
     Config.cacheManager.refresh();
     final cacheManager = Config.cacheManager.cache;
-    final apiKey = cacheManager?.apiKey ?? "";
-    final apiUrl = cacheManager?.apiUrl ?? "";
+    final remotes = cacheManager?.remotes ?? [];
 
-    if (apiKey.isEmpty || apiUrl.isEmpty) {
-      ConsoleWritter.writeWithColor("WARNING!", Colors.yellow);
-      ConsoleWritter.writeWithColor("Register a api key first.", Colors.red);
-      return;
+    for (int i = 0; i < remotes.length; i++) {
+      final item = remotes[i];
+      ConsoleWritter.write("[${i}] ${item.name} url: ${item.url}");
     }
-    ConsoleWritter.writeWithColor(
-        "prepare to get remote list...", Colors.yellow);
-    var httpConnector = HttpConnector(apiUrl, apiKey);
-    final repos = await httpConnector.getRepos(page);
-    ConsoleWritter.write("data: ${repos} ");
   }
+
+  ///list remote repos
+  // void run() async {
+  //   final page = int.parse(argResults!['page']);
+  //   ConsoleWritter.writeWithColor("Show repos of page $page", Colors.yellow);
+  //   Config.cacheManager.refresh();
+  //   final cacheManager = Config.cacheManager.cache;
+  //   final apiKey = cacheManager?.apiKey ?? "";
+  //   final apiUrl = cacheManager?.apiUrl ?? "";
+
+  //   if (apiKey.isEmpty || apiUrl.isEmpty) {
+  //     ConsoleWritter.writeWithColor("WARNING!", Colors.yellow);
+  //     ConsoleWritter.writeWithColor("Register a api key first.", Colors.red);
+  //     return;
+  //   }
+  //   ConsoleWritter.writeWithColor(
+  //       "prepare to get remote list...", Colors.yellow);
+  //   var httpConnector = HttpConnector(apiUrl, apiKey);
+  //   final repos = await httpConnector.getRepos(page);
+  //   for (var item in repos) {
+  //     ConsoleWritter.write("data: ${item.title} ${item.description}");
+  //   }
+  // }
 }

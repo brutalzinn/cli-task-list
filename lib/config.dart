@@ -4,9 +4,11 @@ import 'package:auto_assistant_cli/models/repo.dart';
 import 'package:intl/intl.dart';
 
 class Config {
+  static const String notePadPath =
+      "C://Program Files//Notepad++//notepad++.exe";
   static const String repoDirectory = "repos";
   static const String cacheDirectory = "cache";
   static DateFormat dateFormat = DateFormat("yyyy-MM-dd HH:mm:ss");
-  static CacheManager cacheManager =
-      CacheManager(cache: Cache(currentRepo: Repo("default", ""), tasks: []));
+  static CacheManager cacheManager = CacheManager(
+      cache: Cache(currentRepo: Repo("default", ""), remotes: [], tasks: []));
 }
