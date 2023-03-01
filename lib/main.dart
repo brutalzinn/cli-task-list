@@ -16,6 +16,5 @@ void main(List<String> args) {
     ..addCommand(TaskCommand())
     ..addCommand(RepoCommand())
     ..addCommand(RemoteCommand())
-    ..addCommand(AuthCommand())
     ..run(args);
 }
