@@ -1,9 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
-
 import 'package:auto_assistant_cli/models/remote.dart';
 import 'package:collection/collection.dart';
-
 import 'package:auto_assistant_cli/config.dart';
 import 'package:auto_assistant_cli/models/repo.dart';
 import 'package:auto_assistant_cli/models/task.dart';
@@ -14,6 +12,7 @@ class Cache {
   List<Task> tasks;
   String? apiKey;
   String? apiUrl;
+  String? defaultEditorPath;
   DateTime? lastPush;
   DateTime? lastPull;
   Cache({
@@ -22,6 +21,7 @@ class Cache {
     required this.tasks,
     this.apiKey,
     this.apiUrl,
+    this.defaultEditorPath,
     this.lastPush,
     this.lastPull,
   });
@@ -33,6 +33,7 @@ class Cache {
       'tasks': tasks.map((x) => x.toMap()).toList(),
       'apiKey': apiKey,
       'apiUrl': apiUrl,
+      'defaultEditorPath': defaultEditorPath,
       'lastPush': lastPush != null ? Config.dateFormat.format(lastPush!) : null,
       'lastPull': lastPull != null ? Config.dateFormat.format(lastPull!) : null
     };
@@ -46,6 +47,9 @@ class Cache {
       tasks: (map['tasks'] as List).map((task) => Task.fromMap(task)).toList(),
       apiKey: map['apiKey'] != null ? map['apiKey'] as String : "",
       apiUrl: map['apiUrl'] != null ? map['apiUrl'] as String : "",
+      defaultEditorPath: map['defaultEditorPath'] != null
+          ? map['defaultEditorPath'] as String
+          : "",
       lastPush: map['lastPush'] != null
           ? Config.dateFormat.parse(map['lastPush'] as String)
           : null,

@@ -25,7 +25,7 @@ class EditTaskCommand extends Command {
     if (task.text.isNotEmpty) {
       await ExternalEditor.writeTmpFile(task.text);
     }
-    final content = await ExternalEditor.showNotepad();
+    final content = await ExternalEditor.showDefaultEditor();
     task.text = content;
     Config.cacheManager.save();
     ConsoleWritter.writeWithColor("Task ${task.name} created", Colors.green);
