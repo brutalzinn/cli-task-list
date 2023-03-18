@@ -3,13 +3,14 @@ import 'dart:convert';
 import 'package:args/command_runner.dart';
 import 'package:auto_assistant_cli/cache_manager.dart';
 import 'package:auto_assistant_cli/config.dart';
+import 'package:auto_assistant_cli/console/console_writter.dart';
 import 'package:auto_assistant_cli/utils/external_browser.dart';
 import 'package:auto_assistant_cli/utils/oauth_util.dart';
 
 class AuthRemote extends Command {
   final identifier = Config.clientId;
   final secret = Config.clientSecret;
-  final redirectUrl = Uri.parse(Config.oAuthRedirectURL);
+  final redirectUrl = Config.oAuthRedirectURL;
 
   @override
   final name = "auth";
@@ -30,10 +31,12 @@ class AuthRemote extends Command {
     print(authorizationEndpoint);
     // final tokenEndpoint = Uri.parse("${remote.url}/oauth/token");
     await openBrowser(authorizationEndpoint);
-    OAuthUtil.listenCallback();
+    final code = await OAuthUtil.listenCallback();
+    final getAuthorization = await OAuthUtil.getAuthorization(code);
+    ConsoleWritter.write("Token received: ${getAuthorization.accessToken}");
   }
 
   Future openBrowser(String authorizationEndpoint) async {
-    ExternalBrowser.runBrowser(authorizationEndpoint);
+    ExternalBrowser.runBrowser(Uri.decodeFull(authorizationEndpoint));
   }
 }

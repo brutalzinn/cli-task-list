@@ -24,9 +24,9 @@ class Config {
       "OAUTH_TOKEN_URL",
       defaultValue: "http://localhost:9000/oauth/token");
 
-  static const String clientId =
-      String.fromEnvironment("CLIENT_ID", defaultValue: "");
+  static const String clientId = String.fromEnvironment("CLIENT_ID",
+      defaultValue: "e6fe1346-2cf3-4906-99de-b1e8219d8008");
 
-  static const String clientSecret =
-      String.fromEnvironment("CLIENT_SECRET", defaultValue: "");
+  static const String clientSecret = String.fromEnvironment("CLIENT_SECRET",
+      defaultValue: "6086ef00-a0d7-4d57-9ca5-e47b01793d5a");
 }
