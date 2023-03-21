@@ -1,5 +1,6 @@
 # cli-task-list
 
+# This project is to be used with [api-task-list](https://github.com/brutalzinn/api-task-list)
 # UNDER DEVELOPMENT
 
 This is simple CLI to write tasks in it.
