@@ -20,7 +20,7 @@ class AddRepoCommand extends Command {
       repoDescription = argResults?.arguments[1] ?? "";
     }
     final currentDate = DateTime.now();
-    final fileName = repoName.replaceAll(" ", "-");
+    final fileName = repoName.replaceAll(" ", "-").toLowerCase();
     final repo = Repo(repoName, repoDescription,
         fileName: fileName, createAt: currentDate);
     final storageManager = RepoManager(repo: repo, tasks: []);

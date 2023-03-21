@@ -20,15 +20,9 @@ class DelRepoCommand extends Command {
     final repoDirectory = Directory(Config.repoDirectory);
     final files =
         await repoDirectory.list(recursive: false, followLinks: false).toList();
-
-    for (int i = 0; i < files.length; i++) {
-      final item = files[i];
-      final filename = basename(item.path).replaceAll(".json", "");
-      if (i == index) {
-        File(item.path).delete();
-        ConsoleWritter.writeWithColor("DELETED $filename", Colors.green);
-        break;
-      }
-    }
+    final item = files[index];
+    final filename = basename(item.path).replaceAll(".json", "");
+    File(item.path).delete();
+    ConsoleWritter.writeWithColor("DELETED $filename", Colors.green);
   }
 }

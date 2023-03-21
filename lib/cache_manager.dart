@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:auto_assistant_cli/console/colors.dart';
 import 'package:auto_assistant_cli/console/console_writter.dart';
+import 'package:auto_assistant_cli/models/remote.dart';
 import 'package:path/path.dart' as Path;
 
 import 'package:auto_assistant_cli/config.dart';

@@ -1,5 +1,8 @@
 import 'dart:io';
 
+import 'package:auto_assistant_cli/console/colors.dart';
+import 'package:auto_assistant_cli/console/console_writter.dart';
+
 class ExternalBrowser {
   static void runBrowser(String url) {
     var fail = false;
@@ -19,7 +22,7 @@ class ExternalBrowser {
     }
 
     if (!fail) {
-      print("Start browsing...");
+      ConsoleWritter.writeWithColor(url, Colors.yellow);
     }
   }
 }

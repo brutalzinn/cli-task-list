@@ -21,19 +21,23 @@ class AuthRemote extends Command {
 
   @override
   void run() async {
-    var name = "origin";
     Config.cacheManager.refresh();
-    final currentCache = Config.cacheManager.cache;
-    final remotes = currentCache?.remotes ?? [];
-    final remote = remotes.firstWhere((element) => element.name == name);
     final authorizationEndpoint =
-        "${remote.url}/oauth/authorize?response_type=code&client_id=$identifier&client_secret=$secret&scope=read%3Arepo%20create%3Arepo&redirect_uri=$redirectUrl";
-    print(authorizationEndpoint);
-    // final tokenEndpoint = Uri.parse("${remote.url}/oauth/token");
+        "${Config.oAuthAuthorizeServerUrl}?response_type=code&client_id=$identifier&client_secret=$secret&scope=read%3Arepo%20create%3Arepo&redirect_uri=$redirectUrl";
     await openBrowser(authorizationEndpoint);
-    final code = await OAuthUtil.listenCallback();
-    final getAuthorization = await OAuthUtil.getAuthorization(code);
-    ConsoleWritter.write("Token received: ${getAuthorization.accessToken}");
+    OAuthUtil.waitCodeOAuth(
+      (code) async {
+        ConsoleWritter.writeImportant("code $code");
+        final authorization = await OAuthUtil.authorization(code);
+        ConsoleWritter.write("ACCESS TOKEN: ${authorization.toJson()}");
+        final refreshToken =
+            await OAuthUtil.refreshToken(authorization.accessToken);
+        ConsoleWritter.write(
+            "REFRESH ACCESS TOKEN: ${refreshToken.accessToken}");
+        ConsoleWritter.write(
+            "REFRESH ACCESS TOKEN EXPIRE AT: ${refreshToken.expiresIn}");
+      },
+    );
   }
 
   Future openBrowser(String authorizationEndpoint) async {

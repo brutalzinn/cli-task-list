@@ -12,6 +12,9 @@ class Config {
   static CacheManager cacheManager = CacheManager(
       cache: Cache(currentRepo: Repo("default", ""), remotes: [], tasks: []));
 
+  static const String apiBaseUrl = String.fromEnvironment("API_BASE_URL",
+      defaultValue: "http://localhost:9000");
+
   static const String oAuthRedirectURL = String.fromEnvironment(
       "OAUTH_REDIRECT_URL",
       defaultValue: "http://localhost:8888");
@@ -25,8 +28,8 @@ class Config {
       defaultValue: "http://localhost:9000/oauth/token");
 
   static const String clientId = String.fromEnvironment("CLIENT_ID",
-      defaultValue: "e6fe1346-2cf3-4906-99de-b1e8219d8008");
+      defaultValue: "3b3a977c-fb99-475e-bd66-7238f678b796");
 
   static const String clientSecret = String.fromEnvironment("CLIENT_SECRET",
-      defaultValue: "6086ef00-a0d7-4d57-9ca5-e47b01793d5a");
+      defaultValue: "46f5a40a-d4c6-4099-bd80-4e1b7195ce37");
 }

@@ -6,29 +6,32 @@ class AccessToken {
   final int expiresIn;
   final String scope;
   final String tokenType;
+  final String refreshToken;
 
-  AccessToken({
-    required this.accessToken,
-    required this.expiresIn,
-    required this.scope,
-    required this.tokenType,
-  });
+  AccessToken(
+      {required this.accessToken,
+      required this.expiresIn,
+      required this.scope,
+      required this.tokenType,
+      required this.refreshToken});
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'accessToken': accessToken,
-      'expiresIn': expiresIn,
+      'access_token': accessToken,
+      'expires_in': expiresIn,
       'scope': scope,
-      'tokenType': tokenType,
+      'token_type': tokenType,
+      'refresh_token': refreshToken,
     };
   }
 
   factory AccessToken.fromMap(Map<String, dynamic> map) {
     return AccessToken(
-      accessToken: map['accessToken'] as String,
-      expiresIn: map['expiresIn'] as int,
+      accessToken: map['access_token'] as String,
+      expiresIn: map['expires_in'] as int,
       scope: map['scope'] as String,
-      tokenType: map['tokenType'] as String,
+      tokenType: map['token_type'] as String,
+      refreshToken: map['refresh_token'] as String,
     );
   }
 

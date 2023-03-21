@@ -27,6 +27,6 @@ class AddTaskCommand extends Command {
     Config.cacheManager.refresh();
     Config.cacheManager.cache!.tasks.add(task);
     Config.cacheManager.save();
-    ConsoleWritter.writeWithColor("Task $taskName created", Colors.green);
+    ConsoleWritter.writeWithColor("Task \"$taskName\" created", Colors.green);
   }
 }

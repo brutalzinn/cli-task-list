@@ -17,7 +17,7 @@ class InfoRepoCommand extends Command {
   @override
   void run() {
     final currentRepo = Config.cacheManager.cache!.currentRepo;
-    final info = RepoManager.load(currentRepo.title);
+    final info = RepoManager.load(currentRepo.fileName);
     ConsoleWritter.write(
         "Name: ${info.repo.title} create At ${info.repo.createAt} Last Update: ${info.repo.updateAt} tasks: ${info.tasks.length}");
   }

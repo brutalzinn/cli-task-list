@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:auto_assistant_cli/config.dart';
 
 class ExternalEditor {
@@ -7,11 +6,7 @@ class ExternalEditor {
 
   static Future<String> showDefaultEditor() async {
     final tempFile = File(tmpFile);
-    if (Platform.isWindows) {
-      Process.runSync(Config.defaultEditor, [tempFile.path]);
-    } else if (Platform.isLinux) {
-      await Process.start('notepad-plus-plus', [tempFile.path]);
-    }
+    Process.runSync(Config.defaultEditor, [tempFile.path]);
     final content = await tempFile.readAsString();
     tempFile.delete();
     return content;
