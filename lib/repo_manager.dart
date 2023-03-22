@@ -2,6 +2,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:auto_assistant_cli/config.dart';
+import 'package:auto_assistant_cli/models/remote.dart';
 import 'package:auto_assistant_cli/models/repo.dart';
 import 'package:auto_assistant_cli/models/task.dart';
 import 'package:path/path.dart' as Path;
@@ -48,7 +49,9 @@ class RepoManager {
     final repoExists = repoDirectory.existsSync();
     if (repoExists == false) {
       repoDirectory.create();
-      final repo = Repo("default", "", createAt: DateTime.now());
+      final repo = Repo("default", "",
+          remotes: [Remote(name: "origin", url: Config.apiBaseUrl)],
+          createAt: DateTime.now());
       RepoManager(repo: repo, tasks: []).save();
     }
   }

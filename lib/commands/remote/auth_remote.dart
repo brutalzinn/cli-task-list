@@ -27,7 +27,7 @@ class AuthRemote extends Command {
     await openBrowser(authorizationEndpoint);
     OAuthUtil.waitCodeOAuth(
       (code) async {
-        ConsoleWritter.writeImportant("code $code");
+        ConsoleWritter.writeWarning("code $code");
         final authorization = await OAuthUtil.authorization(code);
         ConsoleWritter.write("ACCESS TOKEN: ${authorization.toJson()}");
         final refreshToken =

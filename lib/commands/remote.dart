@@ -2,7 +2,7 @@ import 'package:args/command_runner.dart';
 import 'package:auto_assistant_cli/commands/remote/add_remote.dart';
 import 'package:auto_assistant_cli/commands/remote/auth_remote.dart';
 import 'package:auto_assistant_cli/commands/remote/list_remote.dart';
-import 'remote/push_remote.dart';
+import 'push.dart';
 
 class RemoteCommand extends Command {
   @override
@@ -11,7 +11,8 @@ class RemoteCommand extends Command {
   final description = "Remote manager with api-task-list";
 
   RemoteCommand() {
-    // addSubcommand(PushRemoteCommand());
+    ///DEPRECATED
+    addSubcommand(PushRemoteCommand());
     addSubcommand(AddRemote());
     addSubcommand(ListRemoteCommand());
     addSubcommand(AuthRemote());

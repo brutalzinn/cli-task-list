@@ -10,6 +10,8 @@ import 'package:auto_assistant_cli/console/console_writter.dart';
 import 'package:auto_assistant_cli/provider/http_connector.dart';
 import 'package:auto_assistant_cli/repo_manager.dart';
 
+///DEPRECATED
+
 class ListRemoteCommand extends Command {
   @override
   final name = "list";
@@ -24,34 +26,16 @@ class ListRemoteCommand extends Command {
   void run() {
     Config.cacheManager.refresh();
     final cacheManager = Config.cacheManager.cache;
-    final remotes = cacheManager?.remotes ?? [];
-
-    for (int i = 0; i < remotes.length; i++) {
-      final item = remotes[i];
-      ConsoleWritter.write("[${i}] ${item.name} url: ${item.url}");
+    final currentRepo = cacheManager?.currentRepo;
+    final currentRemote = currentRepo?.remotes ?? [];
+    if (currentRemote.isEmpty) {
+      ConsoleWritter.writeWarning(
+          "No remotes found for repo ${currentRepo?.title}");
+      return;
+    }
+    for (int i = 0; i < currentRemote.length; i++) {
+      final item = currentRemote[i];
+      ConsoleWritter.write("[${i}] Remote: ${item.name} url: ${item.url}");
     }
   }
-
-  ///list remote repos
-  // void run() async {
-  //   final page = int.parse(argResults!['page']);
-  //   ConsoleWritter.writeWithColor("Show repos of page $page", Colors.yellow);
-  //   Config.cacheManager.refresh();
-  //   final cacheManager = Config.cacheManager.cache;
-  //   final apiKey = cacheManager?.apiKey ?? "";
-  //   final apiUrl = cacheManager?.apiUrl ?? "";
-
-  //   if (apiKey.isEmpty || apiUrl.isEmpty) {
-  //     ConsoleWritter.writeWithColor("WARNING!", Colors.yellow);
-  //     ConsoleWritter.writeWithColor("Register a api key first.", Colors.red);
-  //     return;
-  //   }
-  //   ConsoleWritter.writeWithColor(
-  //       "prepare to get remote list...", Colors.yellow);
-  //   var httpConnector = HttpConnector(apiUrl, apiKey);
-  //   final repos = await httpConnector.getRepos(page);
-  //   for (var item in repos) {
-  //     ConsoleWritter.write("data: ${item.title} ${item.description}");
-  //   }
-  // }
 }

@@ -13,13 +13,14 @@ import 'package:auto_assistant_cli/models/repo.dart';
 
 class CacheManager {
   Cache? cache;
+  static final filename = "cache.json";
   CacheManager({
     this.cache,
   });
 
   void save() {
     final repoDirectory = Directory(Config.cacheDirectory);
-    final filePath = Path.join(repoDirectory.path, "default.json");
+    final filePath = Path.join(repoDirectory.path, filename);
     String json = cache!.toJson();
     File(filePath).writeAsString(json);
     ConsoleWritter.write("Cache saved");
@@ -27,7 +28,7 @@ class CacheManager {
 
   static CacheManager? load() {
     final repoDirectory = Directory(Config.cacheDirectory);
-    final filePath = Path.join(repoDirectory.path, "default.json");
+    final filePath = Path.join(repoDirectory.path, filename);
     final jsonString = File(filePath).readAsStringSync();
     if (jsonString.isEmpty) {
       return null;
@@ -38,15 +39,15 @@ class CacheManager {
   void refresh() {
     final cacheManager = CacheManager.load();
     if (cacheManager == null) {
-      ConsoleWritter.writeImportant("Caution. You cache cant be loaded.");
+      ConsoleWritter.writeWarning("Cant refresh cache");
       return;
     }
     final oldTasks = cacheManager.cache?.tasks ?? [];
+    final oldRemotes = cacheManager.cache?.currentRepo.remotes ?? [];
     cache!.tasks.clear();
     cache!.tasks.addAll(oldTasks);
-    cache!.apiUrl = cacheManager.cache!.apiUrl;
-    cache!.apiKey = cacheManager.cache!.apiKey;
-    cache!.remotes = cacheManager.cache!.remotes;
+    cache!.currentRepo.remotes.clear();
+    cache!.currentRepo.remotes.addAll(oldRemotes);
   }
 
   static void initialize() {
@@ -54,9 +55,10 @@ class CacheManager {
     final repoExists = cacheDirectory.existsSync();
     if (repoExists == false) {
       cacheDirectory.create();
-      final defaultRepo = Repo("default", "Default repo");
-      Config.cacheManager = CacheManager(
-          cache: Cache(currentRepo: defaultRepo, remotes: [], tasks: []));
+      final defaultRepo = Repo("default", "Default repo",
+          remotes: [Remote(name: "origin", url: Config.apiBaseUrl)]);
+      Config.cacheManager =
+          CacheManager(cache: Cache(currentRepo: defaultRepo, tasks: []));
       Config.cacheManager.save();
     }
   }

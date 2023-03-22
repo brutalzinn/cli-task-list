@@ -5,9 +5,9 @@ class ConsoleWritter {
     writeWithColor(text, Colors.white);
   }
 
-  static void writeImportant(String text) {
+  static void writeWarning(String text) {
     writeWithColor("WARNING!", Colors.yellow);
-    writeWithColor(text, Colors.red);
+    writeWithColor(text, Colors.white);
   }
 
   static void writeError(String text) {

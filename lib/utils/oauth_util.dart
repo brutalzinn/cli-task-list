@@ -12,7 +12,7 @@ class OAuthUtil {
   static Future<AccessToken> authorization(String code) async {
     final basicAuth =
         'Basic ${base64.encode(utf8.encode('${Config.clientId}:${Config.clientSecret}'))}';
-    ConsoleWritter.writeImportant(basicAuth);
+    ConsoleWritter.writeWarning(basicAuth);
     final Uri uri = Uri.parse(Config.oAuthTokenServerUrl);
     final body = {
       "grant_type": "authorization_code",
@@ -36,7 +36,7 @@ class OAuthUtil {
   static Future<AccessToken> refreshToken(String refreshToken) async {
     final basicAuth =
         'Basic ${base64.encode(utf8.encode('${Config.clientId}:${Config.clientSecret}'))}';
-    ConsoleWritter.writeImportant(basicAuth);
+    ConsoleWritter.writeWarning(basicAuth);
     final Uri uri = Uri.parse(Config.oAuthTokenServerUrl);
     final body = {"grant_type": "refresh_token", "refresh_token": refreshToken};
     final headers = {

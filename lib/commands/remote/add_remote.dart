@@ -9,6 +9,7 @@ import 'package:auto_assistant_cli/models/remote.dart';
 import 'package:auto_assistant_cli/provider/http_connector.dart';
 import 'package:auto_assistant_cli/repo_manager.dart';
 
+///DEPRECATED
 class AddRemote extends Command {
   @override
   final name = "add";
@@ -21,12 +22,19 @@ class AddRemote extends Command {
   void run() {
     final name = argResults?.arguments[0] ?? "";
     final url = argResults?.arguments[1] ?? "";
-    final remote = Remote(name: name, url: url, apiKey: "");
+    final remote = Remote(name: name, url: url);
     Config.cacheManager.refresh();
     final currentCache = Config.cacheManager.cache;
-    currentCache!.remotes.add(remote);
+    final currentRepo = currentCache?.currentRepo;
+    if (currentRepo == null) {
+      ConsoleWritter.writeError("Cant found this repo");
+      return;
+    }
+    final currentRemotes = currentCache?.currentRepo.remotes ?? [];
+    currentRemotes.add(remote);
+    Config.cacheManager.cache?.currentRepo.remotes = currentRemotes;
     Config.cacheManager.save();
     ConsoleWritter.writeWithColor(
-        "Remote $name created. Api url is $url", Colors.green);
+        "Remote $name created for repo ${currentRepo.title}", Colors.green);
   }
 }

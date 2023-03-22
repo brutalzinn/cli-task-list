@@ -10,7 +10,7 @@ class Config {
   static const String cacheDirectory = "cache";
   static DateFormat dateFormat = DateFormat("yyyy-MM-dd HH:mm:ss");
   static CacheManager cacheManager = CacheManager(
-      cache: Cache(currentRepo: Repo("default", ""), remotes: [], tasks: []));
+      cache: Cache(currentRepo: Repo("default", "", remotes: []), tasks: []));
 
   static const String apiBaseUrl = String.fromEnvironment("API_BASE_URL",
       defaultValue: "http://localhost:9000");

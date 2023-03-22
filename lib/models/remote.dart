@@ -4,18 +4,15 @@ import 'dart:convert';
 class Remote {
   String name;
   String url;
-  String apiKey;
   Remote({
     required this.name,
     required this.url,
-    required this.apiKey,
   });
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'name': name,
       'url': url,
-      'apiKey': apiKey,
     };
   }
 
@@ -23,7 +20,6 @@ class Remote {
     return Remote(
       name: map['name'] as String,
       url: map['url'] as String,
-      apiKey: map['apiKey'] as String,
     );
   }
 
@@ -33,5 +29,5 @@ class Remote {
       Remote.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() => 'Remote(name: $name, url: $url, apiKey: $apiKey)';
+  String toString() => 'Remote(name: $name, url: $url)';
 }

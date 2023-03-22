@@ -22,7 +22,7 @@ class AddRepoCommand extends Command {
     final currentDate = DateTime.now();
     final fileName = repoName.replaceAll(" ", "-").toLowerCase();
     final repo = Repo(repoName, repoDescription,
-        fileName: fileName, createAt: currentDate);
+        remotes: [], fileName: fileName, createAt: currentDate);
     final storageManager = RepoManager(repo: repo, tasks: []);
     storageManager.save();
     ConsoleWritter.writeWithColor(
