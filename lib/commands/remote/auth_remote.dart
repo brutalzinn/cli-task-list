@@ -4,6 +4,8 @@ import 'package:args/command_runner.dart';
 import 'package:auto_assistant_cli/cache_manager.dart';
 import 'package:auto_assistant_cli/config.dart';
 import 'package:auto_assistant_cli/console/console_writter.dart';
+import 'package:auto_assistant_cli/provider/http_connector.dart';
+import 'package:auto_assistant_cli/utils/authentication_util.dart';
 import 'package:auto_assistant_cli/utils/external_browser.dart';
 import 'package:auto_assistant_cli/utils/oauth_util.dart';
 
@@ -22,16 +24,16 @@ class AuthRemote extends Command {
   @override
   void run() async {
     Config.cacheManager.refresh();
-    final authorizationEndpoint =
-        "${Config.oAuthAuthorizeServerUrl}?response_type=code&client_id=$identifier&client_secret=$secret&scope=read%3Arepo%20create%3Arepo&redirect_uri=$redirectUrl";
-    await openBrowser(authorizationEndpoint);
+    final basicAuth = AuthenticationUtil.basicAuth(identifier, secret);
+    final httpConnector = HttpConnector(Config.apiBaseUrl, basicAuth);
+    await openAuthRequest();
     OAuthUtil.waitCodeOAuth(
       (code) async {
         ConsoleWritter.writeWarning("code $code");
-        final authorization = await OAuthUtil.authorization(code);
+        final authorization = await httpConnector.authorization(code);
         ConsoleWritter.write("ACCESS TOKEN: ${authorization.toJson()}");
         final refreshToken =
-            await OAuthUtil.refreshToken(authorization.accessToken);
+            await httpConnector.refreshToken(authorization.accessToken);
         ConsoleWritter.write(
             "REFRESH ACCESS TOKEN: ${refreshToken.accessToken}");
         ConsoleWritter.write(
@@ -40,7 +42,9 @@ class AuthRemote extends Command {
     );
   }
 
-  Future openBrowser(String authorizationEndpoint) async {
+  Future openAuthRequest() async {
+    final authorizationEndpoint =
+        "${Config.oAuthAuthorizeServerUrl}?response_type=code&client_id=$identifier&client_secret=$secret&scope=read%3Arepo%20create%3Arepo&redirect_uri=$redirectUrl";
     ExternalBrowser.runBrowser(Uri.decodeFull(authorizationEndpoint));
   }
 }
