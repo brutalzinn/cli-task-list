@@ -26,23 +26,23 @@ class AuthRemote extends Command {
     Config.cacheManager.refresh();
     final basicAuth = AuthenticationUtil.basicAuth(identifier, secret);
     final httpConnector = HttpConnector(Config.apiBaseUrl, basicAuth);
-    await openAuthRequest();
+    ConsoleWritter.write("Trying to open your default browser..");
+    await _openAuthRequest();
     OAuthUtil.waitCodeOAuth(
       (code) async {
-        ConsoleWritter.writeWarning("code $code");
+        ConsoleWritter.write("Code received $code");
         final authorization = await httpConnector.authorization(code);
-        ConsoleWritter.write("ACCESS TOKEN: ${authorization.toJson()}");
         final refreshToken =
-            await httpConnector.refreshToken(authorization.accessToken);
-        ConsoleWritter.write(
-            "REFRESH ACCESS TOKEN: ${refreshToken.accessToken}");
-        ConsoleWritter.write(
-            "REFRESH ACCESS TOKEN EXPIRE AT: ${refreshToken.expiresIn}");
+            await httpConnector.refreshToken(authorization.refreshToken);
+        Config.cacheManager.cache?.accessToken = authorization.accessToken;
+        Config.cacheManager.cache?.refreshToken = refreshToken.refreshToken;
+        Config.cacheManager.save();
+        ConsoleWritter.writeOK("Authenticated with success");
       },
     );
   }
 
-  Future openAuthRequest() async {
+  Future _openAuthRequest() async {
     final authorizationEndpoint =
         "${Config.oAuthAuthorizeServerUrl}?response_type=code&client_id=$identifier&client_secret=$secret&scope=read%3Arepo%20create%3Arepo&redirect_uri=$redirectUrl";
     ExternalBrowser.runBrowser(Uri.decodeFull(authorizationEndpoint));

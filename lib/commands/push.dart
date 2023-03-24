@@ -33,5 +33,6 @@ class PushRemoteCommand extends Command {
         currentRepo.remotes.firstWhere((element) => element.name == remote);
     ConsoleWritter.writeWarning("pushing to ${currentRemote.name}");
     ConsoleWritter.write("Prepare ${info.tasks.length} tasks");
+    
   }
 }

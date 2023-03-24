@@ -10,12 +10,16 @@ class Cache {
   Repo currentRepo;
   List<Task> tasks;
   String? defaultEditorPath;
+  String? accessToken;
+  String? refreshToken;
   DateTime? lastPush;
   DateTime? lastPull;
   Cache({
     required this.currentRepo,
     required this.tasks,
     this.defaultEditorPath,
+    this.accessToken,
+    this.refreshToken,
     this.lastPush,
     this.lastPull,
   });
@@ -25,6 +29,8 @@ class Cache {
       'currentRepo': currentRepo.toMap(),
       'tasks': tasks.map((x) => x.toMap()).toList(),
       'defaultEditorPath': defaultEditorPath,
+      'access_token': accessToken,
+      'refresh_token': refreshToken,
       'lastPush': lastPush != null ? Config.dateFormat.format(lastPush!) : null,
       'lastPull': lastPull != null ? Config.dateFormat.format(lastPull!) : null
     };
@@ -37,6 +43,10 @@ class Cache {
       defaultEditorPath: map['defaultEditorPath'] != null
           ? map['defaultEditorPath'] as String
           : "",
+      accessToken:
+          map['access_token'] != null ? map['access_token'] as String : "",
+      refreshToken:
+          map['refresh_token'] != null ? map['refresh_token'] as String : "",
       lastPush: map['lastPush'] != null
           ? Config.dateFormat.parse(map['lastPush'] as String)
           : null,

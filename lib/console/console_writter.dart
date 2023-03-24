@@ -15,6 +15,10 @@ class ConsoleWritter {
     writeWithColor(text, Colors.red);
   }
 
+  static void writeOK(String text) {
+    writeWithColor(text, Colors.green);
+  }
+
   static void writeWithColor(String text, String color) {
     print('$color$text${Colors.noColor}');
   }
