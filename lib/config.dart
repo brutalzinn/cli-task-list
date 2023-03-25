@@ -28,8 +28,8 @@ class Config {
       defaultValue: "http://localhost:9000/oauth/token");
 
   static const String clientId = String.fromEnvironment("CLIENT_ID",
-      defaultValue: "37957bdc-e682-4868-bf5d-4db59d24e215");
+      defaultValue: "d45bc6bd-a066-482e-8b64-b56a34d9b2ba");
 
   static const String clientSecret = String.fromEnvironment("CLIENT_SECRET",
-      defaultValue: "2064fa04-ad5e-4a09-869e-7fd24c60378c");
+      defaultValue: "434977f5-2dc8-4290-bec5-e4a14e629d37");
 }

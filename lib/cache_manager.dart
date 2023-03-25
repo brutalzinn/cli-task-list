@@ -48,6 +48,8 @@ class CacheManager {
     cache!.tasks.addAll(oldTasks);
     cache!.currentRepo.remotes.clear();
     cache!.currentRepo.remotes.addAll(oldRemotes);
+    cache!.accessToken = cacheManager.cache?.accessToken;
+    cache!.refreshToken = cacheManager.cache?.refreshToken;
   }
 
   static void initialize() {

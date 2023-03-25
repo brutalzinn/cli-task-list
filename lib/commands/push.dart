@@ -7,7 +7,7 @@ import 'package:auto_assistant_cli/cache_manager.dart';
 import 'package:auto_assistant_cli/config.dart';
 import 'package:auto_assistant_cli/console/colors.dart';
 import 'package:auto_assistant_cli/console/console_writter.dart';
-import 'package:auto_assistant_cli/provider/http_connector.dart';
+import 'package:auto_assistant_cli/integrations/http_connetor.dart';
 import 'package:auto_assistant_cli/repo_manager.dart';
 import 'package:auto_assistant_cli/utils/authentication_util.dart';
 
@@ -36,7 +36,11 @@ class PushRemoteCommand extends Command {
     ConsoleWritter.write("Prepare ${repoManager.tasks.length} tasks");
     final baererToken = Config.cacheManager.cache?.accessToken ?? "";
     final baererHeader = AuthenticationUtil.baererAuth(baererToken);
-    final httpConnector = HttpConnector(Config.apiBaseUrl, baererHeader);
+    ConsoleWritter.write(baererHeader);
+
+    final httpConnector =
+        HttpConnector(Config.apiBaseUrl, baererAuth: baererHeader);
+
     httpConnector.pushTask(currentRemote, repoManager.tasks);
     ConsoleWritter.writeOK("${repoManager.tasks.length} tasks created.");
   }
