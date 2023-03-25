@@ -1,18 +1,15 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:convert';
-import 'dart:io';
 import 'package:auto_assistant_cli/config.dart';
 import 'package:auto_assistant_cli/console/colors.dart';
 import 'package:auto_assistant_cli/models/access_token.dart';
+import 'package:auto_assistant_cli/models/remote.dart';
 import 'package:auto_assistant_cli/models/task.dart';
-import 'package:auto_assistant_cli/utils/authentication_util.dart';
 import 'package:http/http.dart' as httpClient;
 import 'package:auto_assistant_cli/console/console_writter.dart';
-import 'package:auto_assistant_cli/models/repo.dart';
 
 class HttpConnector {
   String baseURL;
-  String basicAuth;
+  String? basicAuth;
   String? baererAuth;
   HttpConnector(
     this.baseURL,
@@ -29,7 +26,7 @@ class HttpConnector {
     };
     final headers = {
       "Content-Type": "application/x-www-form-urlencoded",
-      "Authorization": basicAuth
+      "Authorization": basicAuth ?? ""
     };
     final response = await httpClient.post(uri, headers: headers, body: body);
     if (response.statusCode == 200) {
@@ -48,7 +45,7 @@ class HttpConnector {
     final body = {"grant_type": "refresh_token", "refresh_token": refreshToken};
     final headers = {
       "Content-Type": "application/x-www-form-urlencoded",
-      "Authorization": basicAuth
+      "Authorization": basicAuth ?? ""
     };
     final response = await httpClient.post(uri, headers: headers, body: body);
     if (response.statusCode == 200) {
@@ -60,8 +57,8 @@ class HttpConnector {
     }
   }
 
-  Future<void> pushTask(String remote, List<Task> tasks) async {
-    final Uri uri = Uri.parse(Config.oAuthTokenServerUrl);
+  Future<void> pushTask(Remote remote, List<Task> tasks) async {
+    final Uri uri = Uri.parse(remote.url);
     final headers = {
       "Content-Type": "application/json",
       "Authorization": baererAuth ?? ""
@@ -71,8 +68,7 @@ class HttpConnector {
     if (response.statusCode == 200) {
       ConsoleWritter.writeWithColor("Push with success", Colors.green);
     } else {
-      throw Exception(
-          'Failed to send multipart request: ${response.statusCode}');
+      throw Exception('Failed to send new tasks: ${response.statusCode}');
     }
   }
 }

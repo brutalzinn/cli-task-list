@@ -10,6 +10,11 @@ class ConsoleWritter {
     writeWithColor(text, Colors.white);
   }
 
+  static void writeAttention(String text) {
+    writeWithColor("Attention!", Colors.yellow);
+    writeWithColor(text, Colors.white);
+  }
+
   static void writeError(String text) {
     writeWithColor("ERROR!", Colors.red);
     writeWithColor(text, Colors.red);

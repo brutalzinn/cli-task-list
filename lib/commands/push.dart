@@ -9,6 +9,7 @@ import 'package:auto_assistant_cli/console/colors.dart';
 import 'package:auto_assistant_cli/console/console_writter.dart';
 import 'package:auto_assistant_cli/provider/http_connector.dart';
 import 'package:auto_assistant_cli/repo_manager.dart';
+import 'package:auto_assistant_cli/utils/authentication_util.dart';
 
 class PushRemoteCommand extends Command {
   @override
@@ -24,15 +25,19 @@ class PushRemoteCommand extends Command {
         argResults!.arguments.isNotEmpty ? argResults?.arguments[0] : "origin";
     Config.cacheManager.refresh();
     final currentRepo = Config.cacheManager.cache!.currentRepo;
-    final info = RepoManager.load(currentRepo.fileName);
+    final repoManager = RepoManager.load(currentRepo.fileName);
     if (currentRepo.remotes.isEmpty) {
       ConsoleWritter.writeError("No remote found for ${currentRepo.title}");
       return;
     }
     final currentRemote =
         currentRepo.remotes.firstWhere((element) => element.name == remote);
-    ConsoleWritter.writeWarning("pushing to ${currentRemote.name}");
-    ConsoleWritter.write("Prepare ${info.tasks.length} tasks");
-    
+    ConsoleWritter.writeAttention("pushing to ${currentRemote.name}");
+    ConsoleWritter.write("Prepare ${repoManager.tasks.length} tasks");
+    final baererToken = Config.cacheManager.cache?.accessToken ?? "";
+    final baererHeader = AuthenticationUtil.baererAuth(baererToken);
+    final httpConnector = HttpConnector(Config.apiBaseUrl, baererHeader);
+    httpConnector.pushTask(currentRemote, repoManager.tasks);
+    ConsoleWritter.writeOK("${repoManager.tasks.length} tasks created.");
   }
 }
