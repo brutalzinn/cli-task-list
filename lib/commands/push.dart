@@ -36,8 +36,6 @@ class PushRemoteCommand extends Command {
     ConsoleWritter.write("Prepare ${repoManager.tasks.length} tasks");
     final baererToken = Config.cacheManager.cache?.accessToken ?? "";
     final baererHeader = AuthenticationUtil.baererAuth(baererToken);
-    ConsoleWritter.write(baererHeader);
-
     final httpConnector =
         HttpConnector(Config.apiBaseUrl, baererAuth: baererHeader);
 
