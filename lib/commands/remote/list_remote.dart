@@ -35,7 +35,8 @@ class ListRemoteCommand extends Command {
     }
     for (int i = 0; i < currentRemote.length; i++) {
       final item = currentRemote[i];
-      ConsoleWritter.write("[${i}] Remote: ${item.name} url: ${item.url}");
+      ConsoleWritter.write(
+          "[${i}] ${currentRepo?.title} ${item.name} (${item.url})");
     }
   }
 }
