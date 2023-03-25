@@ -7,7 +7,7 @@ WINDOWS_CUR_DIR = $(subst /,\,$(CURDIR))
 
 setup-windows:
 	@echo "Setting up for Windows"
-	OAUTH_AUTHORIZE_URL=http://localhost:9000/oauth/authorize"
+	OAUTH_AUTHORIZE_URL=http://localhost:9000/oauth/authorize
 	OAUTH_TOKEN_URL=http://localhost:9000/oauth/token
 	OAUTH_REDIRECT_URL=http://localhost:8888
 	CLIENT_ID=22dd3275-4e1b-459f-a80a-3ca7c110cf45
