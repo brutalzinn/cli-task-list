@@ -1,7 +1,7 @@
 import 'package:auto_assistant_cli/config.dart';
 import 'package:auto_assistant_cli/console/console_writter.dart';
 import 'package:auto_assistant_cli/models/access_token.dart';
-import 'package:auto_assistant_cli/integrations/http_connetor.dart';
+import 'package:auto_assistant_cli/http/http_client.dart';
 import 'package:auto_assistant_cli/utils/authentication_util.dart';
 import 'package:auto_assistant_cli/utils/external_browser.dart';
 import 'package:auto_assistant_cli/utils/oauth_code_handler.dart';
@@ -13,8 +13,7 @@ class OAuthAuthenticator {
 
   static Future<AccessToken> auth() async {
     final basicAuth = AuthenticationUtil.basicAuth(identifier, secret);
-    final httpConnector =
-        HttpConnector(Config.apiBaseUrl, basicAuth: basicAuth);
+    final httpConnector = HttpClient(basicAuth: basicAuth);
     ConsoleWritter.write("Trying to open your default browser..");
     await _openAuthRequest();
     String receivedCode = "";
@@ -24,6 +23,15 @@ class OAuthAuthenticator {
     });
     ConsoleWritter.writeOK("Authenticated with success");
     final acessToken = await httpConnector.authorization(receivedCode);
+    return acessToken;
+  }
+
+  static Future<AccessToken> refreshToken([String? refreshToken]) async {
+    final basicAuth = AuthenticationUtil.basicAuth(identifier, secret);
+    final httpConnector = HttpClient(basicAuth: basicAuth);
+    ConsoleWritter.write("Retriving authentication by code");
+    final acessToken = await httpConnector
+        .refreshToken(Config.cacheManager.cache?.refreshToken ?? "");
     return acessToken;
   }
 

@@ -4,13 +4,13 @@ import 'dart:convert';
 import 'package:auto_assistant_cli/config.dart';
 
 class Task {
-  String name;
+  String title;
   String description;
   String text;
   DateTime? createAt;
   DateTime? updateAt;
   Task(
-    this.name,
+    this.title,
     this.description,
     this.text, {
     this.createAt,
@@ -20,7 +20,7 @@ class Task {
   }
 
   factory Task.fromMap(Map<String, dynamic> map) {
-    return Task(map['name'] as String, map['description'] as String,
+    return Task(map['title'] as String, map['description'] as String,
         map['text'] as String,
         createAt: map['createAt'] != null
             ? Config.dateFormat.parse(map['createAt'] as String)
@@ -31,7 +31,7 @@ class Task {
   }
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'name': name,
+      'title': title,
       'description': description,
       'text': text,
       'createAt': createAt != null ? Config.dateFormat.format(createAt!) : null,
@@ -46,6 +46,6 @@ class Task {
 
   @override
   String toString() {
-    return 'Task(name: $name, description: $description, createAt: $createAt, updateAt: $updateAt)';
+    return 'Task(title: $title, description: $description, createAt: $createAt, updateAt: $updateAt)';
   }
 }

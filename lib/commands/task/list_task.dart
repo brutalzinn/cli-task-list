@@ -25,7 +25,7 @@ class ListTaskCommand extends Command {
     for (int i = 0; i < tasks.length; i++) {
       final item = tasks[i];
       ConsoleWritter.write(
-          "[${i}] ${item.name} Create at ${item.createAt} Last Update: ${item.updateAt}");
+          "[${i}] ${item.title} Create at ${item.createAt} Last Update: ${item.updateAt}");
     }
   }
 }

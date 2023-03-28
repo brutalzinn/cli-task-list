@@ -28,6 +28,6 @@ class EditTaskCommand extends Command {
     final content = await ExternalEditor.showDefaultEditor();
     task.text = content;
     Config.cacheManager.save();
-    ConsoleWritter.writeWithColor("Task ${task.name} created", Colors.green);
+    ConsoleWritter.writeWithColor("Task ${task.title} created", Colors.green);
   }
 }

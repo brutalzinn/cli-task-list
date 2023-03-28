@@ -1,34 +1,44 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:auto_assistant_cli/config.dart';
 import 'package:auto_assistant_cli/console/colors.dart';
+import 'package:auto_assistant_cli/common/oauth_authorize.dart';
 import 'package:auto_assistant_cli/models/access_token.dart';
 import 'package:auto_assistant_cli/models/remote.dart';
 import 'package:auto_assistant_cli/models/repo.dart';
 import 'package:auto_assistant_cli/models/task.dart';
-import 'package:http/http.dart' as httpClient;
 import 'package:auto_assistant_cli/console/console_writter.dart';
+import 'package:dio/dio.dart';
 
 //after week we can refactor this calling the concept of only instance one httpConnector and handle if request needs api key or is only user auth request.
 
-class HttpConnector {
-  String baseURL;
+class HttpClient {
+  late Dio dio;
   String? basicAuth;
   String? baererAuth;
-  HttpConnector(this.baseURL, {this.basicAuth, this.baererAuth});
+  HttpClient({this.baererAuth, this.basicAuth}) {
+    dio = Dio();
+    dio.options
+      ..baseUrl = Config.apiBaseUrl
+      ..connectTimeout = Duration(seconds: 5)
+      ..receiveTimeout = Duration(seconds: 5)
+      ..validateStatus = (int? status) {
+        return status != null && status > 0;
+      }
+      ..headers = {
+        HttpHeaders.userAgentHeader: 'auto-assistant-cli',
+        "Authorization": baererAuth ?? basicAuth
+      };
+  }
 
   Future<List<Repo>> getRepos(int page) async {
-    final Uri uri =
-        Uri.parse("$baseURL/repo/paginate?page=$page&limit=5&order=DESC");
-    final headers = {
-      "Content-Type": "application/json",
-      "Authorization": baererAuth ?? ""
-    };
-    final response = await httpClient.get(uri, headers: headers);
+    Response response =
+        await dio.get("/repo/paginate?page=$page&limit=5&order=DESC");
     if (response.statusCode == 200) {
       ConsoleWritter.writeWithColor("Push with success", Colors.green);
-      final map = json.decode(response.body);
+      final map = json.decode(response.data);
       return (map['data']['repos'] as List)
           .map((repo) => Repo.fromMap(repo))
           .toList();
@@ -39,19 +49,20 @@ class HttpConnector {
 
   ///wrong way to do this.
   Future<AccessToken> authorization(String code) async {
-    final Uri uri = Uri.parse(Config.oAuthTokenServerUrl);
     final body = {
       "grant_type": "authorization_code",
       "code": code,
       "redirect_uri": Config.oAuthRedirectURL
     };
-    final headers = {
-      "Content-Type": "application/x-www-form-urlencoded",
-      "Authorization": basicAuth ?? ""
-    };
-    final response = await httpClient.post(uri, headers: headers, body: body);
+    final response = await dio.post(
+      Config.oAuthTokenServerUrl,
+      data: body,
+      options: Options(
+        contentType: Headers.formUrlEncodedContentType,
+      ),
+    );
     if (response.statusCode == 200) {
-      final accessToken = AccessToken.fromJson(response.body);
+      final accessToken = AccessToken.fromMap(response.data);
       return accessToken;
     } else {
       throw Exception(
@@ -61,16 +72,16 @@ class HttpConnector {
 
   ///wrong way to do this.
   Future<AccessToken> refreshToken(String refreshToken) async {
-    print(refreshToken);
-    final Uri uri = Uri.parse(Config.oAuthTokenServerUrl);
     final body = {"grant_type": "refresh_token", "refresh_token": refreshToken};
-    final headers = {
-      "Content-Type": "application/x-www-form-urlencoded",
-      "Authorization": basicAuth ?? ""
-    };
-    final response = await httpClient.post(uri, headers: headers, body: body);
+    final response = await dio.post(
+      Config.oAuthTokenServerUrl,
+      data: body,
+      options: Options(
+        contentType: Headers.formUrlEncodedContentType,
+      ),
+    );
     if (response.statusCode == 200) {
-      final accessToken = AccessToken.fromJson(response.body);
+      final accessToken = AccessToken.fromMap(response.data);
       return accessToken;
     } else {
       throw Exception(
@@ -79,13 +90,8 @@ class HttpConnector {
   }
 
   Future<void> pushTask(Remote remote, List<Task> tasks) async {
-    final Uri uri = Uri.parse(remote.url);
-    final headers = {
-      "Content-Type": "application/json",
-      "Authorization": baererAuth ?? ""
-    };
     final body = tasks.map((x) => x.toMap()).toList();
-    final response = await httpClient.post(uri, headers: headers, body: body);
+    final response = await dio.put(remote.url, data: body);
     if (response.statusCode == 200) {
       ConsoleWritter.writeWithColor("Push with success", Colors.green);
     } else {

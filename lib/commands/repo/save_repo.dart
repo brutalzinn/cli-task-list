@@ -21,8 +21,8 @@ class SaveRepoCommand extends Command {
     final info = RepoManager.load(currentRepoFilename);
     info.repo.updateAt = DateTime.now();
     info.tasks.addAll(currentCache.tasks);
-    Config.cacheManager.cache!.tasks.clear();
     info.save();
+    Config.cacheManager.cache!.tasks.clear();
     Config.cacheManager.save();
     ConsoleWritter.writeWithColor("Saved", Colors.green);
     ConsoleWritter.writeWithColor("Local cache cleaned", Colors.yellow);
