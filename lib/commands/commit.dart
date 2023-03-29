@@ -4,13 +4,13 @@ import 'package:auto_assistant_cli/console/colors.dart';
 import 'package:auto_assistant_cli/console/console_writter.dart';
 import 'package:auto_assistant_cli/repo_manager.dart';
 
-class SaveRepoCommand extends Command {
+class CommitCommand extends Command {
   @override
-  final name = "save";
+  final name = "commit";
   @override
-  final description = "Save repo";
+  final description = "move cache to repos";
 
-  SaveRepoCommand();
+  CommitCommand();
 
   @override
   void run() {

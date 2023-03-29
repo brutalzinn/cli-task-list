@@ -6,7 +6,8 @@ class ExternalEditor {
 
   static Future<String> showDefaultEditor() async {
     final tempFile = File(tmpFile);
-    Process.runSync(Config.defaultEditor, [tempFile.path]);
+    Process.runSync(
+        Config.cacheManager.cache?.defaultEditorPath ?? "", [tempFile.path]);
     final content = await tempFile.readAsString();
     tempFile.delete();
     return content;

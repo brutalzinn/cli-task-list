@@ -19,12 +19,18 @@ class EditTaskCommand extends Command {
 
   @override
   void run() async {
-    var index = int.tryParse(argResults!.arguments[0]) ?? 0;
     Config.cacheManager.refresh();
-    final task = Config.cacheManager.cache!.tasks[index];
+    final currentCache = Config.cacheManager.cache;
+    final currentRepo =
+        RepoManager.load(currentCache?.currentRepo.fileName ?? "default");
+    var index = int.tryParse(argResults!.arguments[0]) ?? 0;
+    final tasks = currentCache?.tasks ?? [];
+    tasks.addAll(currentRepo.tasks);
+    final task = tasks[index];
     if (task.text.isNotEmpty) {
       await ExternalEditor.writeTmpFile(task.text);
     }
+
     final content = await ExternalEditor.showDefaultEditor();
     task.text = content;
     Config.cacheManager.save();

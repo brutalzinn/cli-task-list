@@ -12,7 +12,6 @@ class RemoteCommand extends Command {
 
   RemoteCommand() {
     ///DEPRECATED
-    addSubcommand(PushRemoteCommand());
     addSubcommand(AddRemote());
     addSubcommand(ListRemoteCommand());
     addSubcommand(AuthRemote());

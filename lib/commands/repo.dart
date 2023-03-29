@@ -3,7 +3,6 @@ import 'package:auto_assistant_cli/commands/repo/add_repo.dart';
 import 'package:auto_assistant_cli/commands/repo/del_repo.dart';
 import 'package:auto_assistant_cli/commands/repo/info_repo.dart';
 import 'package:auto_assistant_cli/commands/repo/list_repo.dart';
-import 'package:auto_assistant_cli/commands/repo/save_repo.dart';
 import 'package:auto_assistant_cli/commands/repo/select_repo.dart';
 import 'package:auto_assistant_cli/config.dart';
 import 'package:auto_assistant_cli/repo_manager.dart';
@@ -21,7 +20,6 @@ class RepoCommand extends Command {
     addSubcommand(DelRepoCommand());
     addSubcommand(ListRepoCommand());
     addSubcommand(SelectRepoCommand());
-    addSubcommand(SaveRepoCommand());
     addSubcommand(InfoRepoCommand());
   }
 }

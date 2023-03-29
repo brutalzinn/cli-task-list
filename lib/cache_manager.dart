@@ -36,6 +36,7 @@ class CacheManager {
     return CacheManager.fromJson(jsonString);
   }
 
+  ///lets change this on next hiperfocus moment
   void refresh() {
     final cacheManager = CacheManager.load();
     if (cacheManager == null) {
@@ -50,6 +51,7 @@ class CacheManager {
     cache!.currentRepo.remotes.addAll(oldRemotes);
     cache!.accessToken = cacheManager.cache?.accessToken;
     cache!.refreshToken = cacheManager.cache?.refreshToken;
+    cache!.defaultEditorPath = cacheManager.cache?.defaultEditorPath;
   }
 
   static void initialize() {
