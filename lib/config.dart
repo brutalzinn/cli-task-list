@@ -1,4 +1,5 @@
 import 'package:auto_assistant_cli/cache_manager.dart';
+import 'package:auto_assistant_cli/http/custom_http_client.dart';
 import 'package:auto_assistant_cli/models/cache.dart';
 import 'package:auto_assistant_cli/models/repo.dart';
 import 'package:intl/intl.dart';
@@ -9,6 +10,8 @@ class Config {
   static DateFormat dateFormat = DateFormat("yyyy-MM-dd HH:mm:ss");
   static CacheManager cacheManager = CacheManager(
       cache: Cache(currentRepo: Repo("default", "", remotes: []), tasks: []));
+
+  static CustomHttpClient customHttpClient = CustomHttpClient();
 
   static const String apiBaseUrl = String.fromEnvironment("API_BASE_URL",
       defaultValue: "http://localhost:9000");

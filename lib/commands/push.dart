@@ -7,9 +7,9 @@ import 'package:auto_assistant_cli/cache_manager.dart';
 import 'package:auto_assistant_cli/config.dart';
 import 'package:auto_assistant_cli/console/colors.dart';
 import 'package:auto_assistant_cli/console/console_writter.dart';
-import 'package:auto_assistant_cli/http/http_client.dart';
+import 'package:auto_assistant_cli/http/custom_http_client.dart';
 import 'package:auto_assistant_cli/repo_manager.dart';
-import 'package:auto_assistant_cli/utils/authentication_util.dart';
+import 'package:auto_assistant_cli/utils/authentication_header_util.dart';
 
 class PushRemoteCommand extends Command {
   @override
@@ -34,10 +34,7 @@ class PushRemoteCommand extends Command {
         currentRepo.remotes.firstWhere((element) => element.name == remote);
     ConsoleWritter.writeAttention("pushing to ${currentRemote.name}");
     ConsoleWritter.write("Prepare ${repoManager.tasks.length} tasks");
-    final baererToken = Config.cacheManager.cache?.accessToken ?? "";
-    final baererHeader = AuthenticationUtil.baererAuth(baererToken);
-    final httpClient = HttpClient(baererAuth: baererHeader);
-    httpClient.pushTask(currentRemote, repoManager.tasks);
+    Config.customHttpClient.pushTask(currentRemote, repoManager.tasks);
     ConsoleWritter.writeOK("${repoManager.tasks.length} tasks created.");
   }
 }

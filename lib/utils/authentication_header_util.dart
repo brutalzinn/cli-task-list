@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-class AuthenticationUtil {
+class AuthenticatorHeaderUtil {
   static String basicAuth(String clientId, String clientSecret) =>
       'Basic ${base64.encode(utf8.encode('$clientId:$clientSecret'))}';
 

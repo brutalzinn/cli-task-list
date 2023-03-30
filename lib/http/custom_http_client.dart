@@ -4,7 +4,8 @@ import 'dart:io';
 
 import 'package:auto_assistant_cli/config.dart';
 import 'package:auto_assistant_cli/console/colors.dart';
-import 'package:auto_assistant_cli/common/oauth_authorize.dart';
+import 'package:auto_assistant_cli/common/oauth_authenticator.dart';
+import 'package:auto_assistant_cli/http/oauth_interceptor.dart';
 import 'package:auto_assistant_cli/models/access_token.dart';
 import 'package:auto_assistant_cli/models/remote.dart';
 import 'package:auto_assistant_cli/models/repo.dart';
@@ -14,23 +15,21 @@ import 'package:dio/dio.dart';
 
 //after week we can refactor this calling the concept of only instance one httpConnector and handle if request needs api key or is only user auth request.
 
-class HttpClient {
+class CustomHttpClient {
   late Dio dio;
-  String? basicAuth;
   String? baererAuth;
-  HttpClient({this.baererAuth, this.basicAuth}) {
+  CustomHttpClient({this.baererAuth}) {
     dio = Dio();
     dio.options
       ..baseUrl = Config.apiBaseUrl
       ..connectTimeout = Duration(seconds: 5)
       ..receiveTimeout = Duration(seconds: 5)
-      ..validateStatus = (int? status) {
-        return status != null && status > 0;
-      }
-      ..headers = {
-        HttpHeaders.userAgentHeader: 'auto-assistant-cli',
-        "Authorization": baererAuth ?? basicAuth
-      };
+      ..headers = {"Authorization": baererAuth};
+    dio.interceptors.add(OuthInterceptor());
+  }
+
+  setBaererAuth(String baererAuth) {
+    this.baererAuth = baererAuth;
   }
 
   Future<List<Repo>> getRepos(int page) async {
@@ -38,6 +37,8 @@ class HttpClient {
         await dio.get("/repo/paginate?page=$page&limit=5&order=DESC");
     if (response.statusCode == 200) {
       ConsoleWritter.writeWithColor("Push with success", Colors.green);
+      ConsoleWritter.writeWithColor("Page: $page", Colors.green);
+
       final map = json.decode(response.data);
       return (map['data']['repos'] as List)
           .map((repo) => Repo.fromMap(repo))
@@ -48,7 +49,7 @@ class HttpClient {
   }
 
   ///wrong way to do this.
-  Future<AccessToken> authorization(String code) async {
+  Future<AccessToken?> authorization(String code, String basicAuth) async {
     final body = {
       "grant_type": "authorization_code",
       "code": code,
@@ -58,35 +59,32 @@ class HttpClient {
       Config.oAuthTokenServerUrl,
       data: body,
       options: Options(
-        contentType: Headers.formUrlEncodedContentType,
-      ),
+          contentType: Headers.formUrlEncodedContentType,
+          headers: {"Authorization": basicAuth}),
     );
     if (response.statusCode == 200) {
       final accessToken = AccessToken.fromMap(response.data);
       return accessToken;
-    } else {
-      throw Exception(
-          'Failed to send authorization multipart request: ${response.statusCode}');
     }
+    return null;
   }
 
   ///wrong way to do this.
-  Future<AccessToken> refreshToken(String refreshToken) async {
+  Future<AccessToken?> refreshToken(
+      String refreshToken, String basicAuth) async {
     final body = {"grant_type": "refresh_token", "refresh_token": refreshToken};
     final response = await dio.post(
       Config.oAuthTokenServerUrl,
       data: body,
       options: Options(
-        contentType: Headers.formUrlEncodedContentType,
-      ),
+          contentType: Headers.formUrlEncodedContentType,
+          headers: {"Authorization": basicAuth}),
     );
     if (response.statusCode == 200) {
       final accessToken = AccessToken.fromMap(response.data);
       return accessToken;
-    } else {
-      throw Exception(
-          'Failed to send refreshToken multipart request: ${response.statusCode}');
     }
+    return null;
   }
 
   Future<void> pushTask(Remote remote, List<Task> tasks) async {

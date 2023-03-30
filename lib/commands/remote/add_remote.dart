@@ -6,7 +6,7 @@ import 'package:auto_assistant_cli/config.dart';
 import 'package:auto_assistant_cli/console/colors.dart';
 import 'package:auto_assistant_cli/console/console_writter.dart';
 import 'package:auto_assistant_cli/models/remote.dart';
-import 'package:auto_assistant_cli/http/http_client.dart';
+import 'package:auto_assistant_cli/http/custom_http_client.dart';
 import 'package:auto_assistant_cli/repo_manager.dart';
 
 ///DEPRECATED
